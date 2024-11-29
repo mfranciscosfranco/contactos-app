@@ -11,9 +11,9 @@
             background-color: #f4f4f9;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             height: 100vh;
+            box-sizing: border-box;
         }
 
         /* Cabeçalho */
@@ -26,6 +26,10 @@
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
+            position: fixed; /* Fixa o cabeçalho no topo */
+            top: 0;
+            left: 0;
+            z-index: 1000;
         }
         .header h1 {
             font-size: 20px;
@@ -35,7 +39,7 @@
             height: 40px;
         }
 
-        /* Container de login */
+        /* Container do login */
         .login-container {
             background: white;
             padding: 20px 30px;
@@ -43,6 +47,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             width: 300px;
+            margin-top: 100px; /* Espaço para o cabeçalho */
         }
         .login-container h1 {
             margin-bottom: 20px;
@@ -105,4 +110,3 @@
     </div>
 </body>
 </html>
-
