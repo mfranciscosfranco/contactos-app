@@ -95,5 +95,37 @@
 
 <script src="contactos.js"></script>
 <script src="script.js"></script>
+
+<script>
+    // Carrega os contactos do localStorage e os exibe na tabela
+    window.onload = function () {
+        const storedContacts = JSON.parse(localStorage.getItem("contactos")) || [];
+        const tableBody = document.querySelector("#contactTableBody");
+
+        // Limpa a tabela
+        tableBody.innerHTML = "";
+
+        // Adiciona cada contacto à tabela
+        storedContacts.forEach((contact) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${contact.nomeProprio || ""}</td>
+                <td>${contact.apelido || ""}</td>
+                <td>${contact.email || ""}</td>
+                <td>${contact.cargo || ""}</td>
+                <td>${contact.empresa || ""}</td>
+                <td>${contact.telefoneTrabalho || ""}</td>
+                <td>${contact.telefoneCasa || ""}</td>
+                <td>${contact.telemovel || ""}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Atualiza o contador de contactos
+        document.getElementById("resultCounter").textContent = `Total de contactos: ${storedContacts.length}`;
+    };
+</script>
+
+
 </body>
 </html>
