@@ -49,6 +49,66 @@ body {
     margin-top: 40px;
 }
 
+.form-container {
+    max-width: 400px; /* Limita a largura do formulário */
+    margin: 0 auto; /* Centraliza o formulário */
+    padding: 20px;
+    background: var(--card-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px var(--shadow-dark);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* Organiza os elementos em coluna */
+    gap: 15px; /* Espaço entre os elementos */
+}
+
+label {
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid var(--shadow-dark);
+    border-radius: 4px;
+    width: 100%; /* Garante que o campo ocupe toda a largura */
+    box-sizing: border-box;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between; /* Botões lado a lado */
+    gap: 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+
+
+
+
 /* Cabeçalho */
 .header {
     background-color: var(--header-bg-color);
