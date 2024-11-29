@@ -15,13 +15,15 @@
     </div>
 
     <div class="top-controls">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Pesquisar contactos..." onkeyup="filterContacts()">
-            <button onclick="clearSearch()">Limpar Pesquisa</button>
-            <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
-        </div>
-        <div class="result-counter" id="resultCounter">Total de contactos: 0</div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Pesquisar contactos..." onkeyup="filterContacts()">
+        <button onclick="clearSearch()">Limpar Pesquisa</button>
+        <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
     </div>
+    <button class="add-contact-btn" onclick="window.location.href='add-contact.html'">Adicionar Novo Contacto</button>
+    <div class="result-counter" id="resultCounter">Total de contactos: 0</div>
+</div>
+
 
     <table class="contact-table" id="contactTable">
         <thead>
