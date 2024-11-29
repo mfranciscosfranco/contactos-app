@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Novo Contacto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Cabeçalho -->
+    <div class="header">
+        <h1>Adicionar Novo Contacto</h1>
+        <img src="logo ma_br.png" alt="Logo" class="header-logo">
+    </div>
+
+    <!-- Formulário para adicionar contacto -->
+    <div class="form-container">
+        <h2>Adicionar Novo Contacto</h2>
+        <form id="addContactForm" onsubmit="return addNewContact(event)">
+            <label for="nomeProprio">Nome Próprio:</label>
+            <input type="text" id="nomeProprio" name="nomeProprio" required>
+
+            <label for="apelido">Apelido:</label>
+            <input type="text" id="apelido" name="apelido" required>
+
+            <label for="empresa">Empresa:</label>
+            <input type="text" id="empresa" name="empresa">
+
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo">
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="telefoneTrabalho">Telefone de Trabalho:</label>
+            <input type="text" id="telefoneTrabalho" name="telefoneTrabalho">
+
+            <label for="telefoneCasa">Telefone de Casa:</label>
+            <input type="text" id="telefoneCasa" name="telefoneCasa">
+
+            <label for="telemovel">Telemóvel:</label>
+            <input type="text" id="telemovel" name="telemovel">
+
+            <div class="form-buttons">
+                <button type="submit">Salvar Contacto</button>
+                <button type="button" onclick="window.location.href='contactos.html'">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function addNewContact(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const contact = Object.fromEntries(formData);
+
+        try {
+            // Simula um envio (ajuste a URL para integração com uma API)
+            const response = await fetch("/api/contactos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(contact),
+            });
+
+            if (response.ok) {
+                alert("Contacto salvo com sucesso!");
+                event.target.reset();
+                window.location.href = "contactos.html"; // Voltar à página inicial após salvar
+            } else {
+                alert("Erro ao salvar o contacto.");
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao salvar o contacto.");
+        }
+    }
+</script>
+
+</body>
+</html>
