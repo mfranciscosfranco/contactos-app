@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Contactos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Lista de Contactos</h1>
+        <img src="logo ma_br.png" alt="Logo" class="header-logo">
+    </div>
+
+    <div class="top-controls">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Pesquisar contactos..." onkeyup="filterContacts()">
+            <button onclick="clearSearch()">Limpar Pesquisa</button>
+            <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
+        </div>
+        <div class="result-counter" id="resultCounter">Total de contactos: 0</div>
+    </div>
+
+    <table class="contact-table" id="contactTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Nome Próprio</th>
+                <th onclick="sortTable(1)">Apelido</th>
+                <th onclick="sortTable(2)">Endereço de E-mail</th>
+                <th onclick="sortTable(3)">Cargo</th>
+                <th onclick="sortTable(4)">Empresa</th>
+                <th onclick="sortTable(5)">Telefone de Trabalho</th>
+                <th onclick="sortTable(6)">Telefone de Casa</th>
+                <th onclick="sortTable(7)">Telemóvel</th>
+            </tr>
+        </thead>
+        <tbody id="contactTableBody">
+            <!-- Os dados dos contactos serão carregados aqui -->
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <p>
+            Desenvolvido por <a href="#" onclick="showAuthorModal()">Miguel Franco</a> - 
+            <a href="#" onclick="showPrivacyPolicy()">Política de Privacidade</a> - © 2024
+        </p>
+        <p id="weatherInfo">Carregando informações meteorológicas...</p>
+	<p id="quoteOfDay">Carregando citação inspiradora...</p>
+
+    </div>
+</div>
+
+<!-- Modal de Detalhes -->
+<div class="modal" id="contactModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <h2>Detalhes do Contacto</h2>
+        <p id="modalDetails"></p>
+        <button onclick="sendEmail()">Enviar Email</button>
+        <button onclick="copyContact()">Copiar</button>
+        <button onclick="shareContact()">Partilhar</button>
+    </div>
+</div>
+
+<!-- Modal de Autor -->
+<div class="modal" id="authorModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeAuthorModal()">&times;</button>
+        <img src="FotoAutor.png" alt="Miguel Franco" class="author-image">
+        <h2>Do Autor</h2>
+        <p>Esta aplicação foi desenvolvida por Miguel Franco com o objetivo de melhorar o serviço de atendimento do município de Alfândega da Fé, tornando a gestão de contactos mais prática e eficiente. 📞💼</p>
+        <p>Olá e bem-vindo(a) à aplicação da Lista de Contactos! 😊</p>
+        <p>É um prazer partilhar este projeto consigo. Espero que encontre tudo o que precisa aqui, mas se precisar de alguma ajuda ou tiver sugestões, estarei sempre disponível para apoiar no que for necessário.</p>
+        <p>Obrigado pela confiança e por utilizar a aplicação. Conte comigo!</p>
+        <p>Miguel Franco</p>
+    </div>
+</div>
+
+<!-- Modal de Política de Privacidade -->
+<div class="modal" id="privacyModal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closePrivacyModal()">&times;</button>
+        <h2>Política de Privacidade</h2>
+        <div class="modal-body">
+            <p>O município de Alfândega da Fé respeita a privacidade e a proteção de dados pessoais dos seus utilizadores.</p>
+            <p>Esta lista de contactos destina-se exclusivamente ao uso interno do serviço de telefonista do município, sendo os dados estritamente confidenciais e de acesso restrito aos colaboradores autorizados.</p>
+            <p>Os titulares dos dados pessoais podem consultar, corrigir ou requerer a eliminação de informações desatualizadas através do email: <strong>privacidade@cm-alfandegadafe.pt</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<script src="contactos.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
