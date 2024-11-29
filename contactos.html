@@ -15,27 +15,26 @@
     </div>
 
     <div class="top-controls">
-    <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="Pesquisar contactos..." onkeyup="filterContacts()">
-        <button onclick="clearSearch()">Limpar Pesquisa</button>
-        <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Pesquisar contactos..." onkeyup="filterContacts()">
+            <button onclick="clearSearch()">Limpar Pesquisa</button>
+            <button class="theme-toggle" onclick="toggleTheme()">Alternar Tema</button>
+        </div>
+        <button class="add-contact-btn" onclick="window.location.href='add-contact.html'">Adicionar Novo Contacto</button>
+        <div class="result-counter" id="resultCounter">Total de contactos: 0</div>
     </div>
-    <button class="add-contact-btn" onclick="window.location.href='add-contact.html'">Adicionar Novo Contacto</button>
-    <div class="result-counter" id="resultCounter">Total de contactos: 0</div>
-</div>
-
 
     <table class="contact-table" id="contactTable">
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Nome Próprio</th>
-                <th onclick="sortTable(1)">Apelido</th>
-                <th onclick="sortTable(2)">Endereço de E-mail</th>
-                <th onclick="sortTable(3)">Cargo</th>
-                <th onclick="sortTable(4)">Empresa</th>
-                <th onclick="sortTable(5)">Telefone de Trabalho</th>
-                <th onclick="sortTable(6)">Telefone de Casa</th>
-                <th onclick="sortTable(7)">Telemóvel</th>
+                <th>Nome Próprio</th>
+                <th>Apelido</th>
+                <th>Endereço de E-mail</th>
+                <th>Cargo</th>
+                <th>Empresa</th>
+                <th>Telefone de Trabalho</th>
+                <th>Telefone de Casa</th>
+                <th>Telemóvel</th>
             </tr>
         </thead>
         <tbody id="contactTableBody">
@@ -49,8 +48,7 @@
             <a href="#" onclick="showPrivacyPolicy()">Política de Privacidade</a> - © 2024
         </p>
         <p id="weatherInfo">Carregando informações meteorológicas...</p>
-	<p id="quoteOfDay">Carregando citação inspiradora...</p>
-
+        <p id="quoteOfDay">Carregando citação inspiradora...</p>
     </div>
 </div>
 
@@ -66,66 +64,62 @@
     </div>
 </div>
 
-<!-- Modal de Autor -->
-<div class="modal" id="authorModal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closeAuthorModal()">&times;</button>
-        <img src="FotoAutor.png" alt="Miguel Franco" class="author-image">
-        <h2>Do Autor</h2>
-        <p>Esta aplicação foi desenvolvida por Miguel Franco com o objetivo de melhorar o serviço de atendimento do município de Alfândega da Fé, tornando a gestão de contactos mais prática e eficiente. 📞💼</p>
-        <p>Olá e bem-vindo(a) à aplicação da Lista de Contactos! 😊</p>
-        <p>É um prazer partilhar este projeto consigo. Espero que encontre tudo o que precisa aqui, mas se precisar de alguma ajuda ou tiver sugestões, estarei sempre disponível para apoiar no que for necessário.</p>
-        <p>Obrigado pela confiança e por utilizar a aplicação. Conte comigo!</p>
-        <p>Miguel Franco</p>
-    </div>
-</div>
+<script type="module">
+    // Importar funções necessárias do Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
-<!-- Modal de Política de Privacidade -->
-<div class="modal" id="privacyModal">
-    <div class="modal-content">
-        <button class="close-btn" onclick="closePrivacyModal()">&times;</button>
-        <h2>Política de Privacidade</h2>
-        <div class="modal-body">
-            <p>O município de Alfândega da Fé respeita a privacidade e a proteção de dados pessoais dos seus utilizadores.</p>
-            <p>Esta lista de contactos destina-se exclusivamente ao uso interno do serviço de telefonista do município, sendo os dados estritamente confidenciais e de acesso restrito aos colaboradores autorizados.</p>
-            <p>Os titulares dos dados pessoais podem consultar, corrigir ou requerer a eliminação de informações desatualizadas através do email: <strong>privacidade@cm-alfandegadafe.pt</strong>.</p>
-        </div>
-    </div>
-</div>
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCF2jJhvcg8BIJLjcqkuSmDZbJmLyu_2kX",
+        authDomain: "lista-de-contactos-74279.firebaseapp.com",
+        databaseURL: "https://lista-de-contactos-74279-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "lista-de-contactos-74279",
+        storageBucket: "lista-de-contactos-74279.appspot.com",
+        messagingSenderId: "576137028792",
+        appId: "1:576137028792:web:c2b6941a5b1137ddd6d004",
+        measurementId: "G-83NEQX3VH0"
+    };
 
-<script src="contactos.js"></script>
-<script src="script.js"></script>
+    // Inicializar Firebase e Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-<script>
-    // Carrega os contactos do localStorage e os exibe na tabela
-    window.onload = function () {
-        const storedContacts = JSON.parse(localStorage.getItem("contactos")) || [];
+    // Função para carregar contactos do Firestore
+    window.onload = async function () {
         const tableBody = document.querySelector("#contactTableBody");
 
-        // Limpa a tabela
-        tableBody.innerHTML = "";
+        try {
+            const querySnapshot = await getDocs(collection(db, "contactos"));
+            let totalContacts = 0;
 
-        // Adiciona cada contacto à tabela
-        storedContacts.forEach((contact) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${contact.nomeProprio || ""}</td>
-                <td>${contact.apelido || ""}</td>
-                <td>${contact.email || ""}</td>
-                <td>${contact.cargo || ""}</td>
-                <td>${contact.empresa || ""}</td>
-                <td>${contact.telefoneTrabalho || ""}</td>
-                <td>${contact.telefoneCasa || ""}</td>
-                <td>${contact.telemovel || ""}</td>
-            `;
-            tableBody.appendChild(row);
-        });
+            // Iterar pelos documentos retornados do Firestore
+            querySnapshot.forEach((doc) => {
+                const contact = doc.data();
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${contact.nomeProprio || ""}</td>
+                    <td>${contact.apelido || ""}</td>
+                    <td>${contact.email || ""}</td>
+                    <td>${contact.cargo || ""}</td>
+                    <td>${contact.empresa || ""}</td>
+                    <td>${contact.telefoneTrabalho || ""}</td>
+                    <td>${contact.telefoneCasa || ""}</td>
+                    <td>${contact.telemovel || ""}</td>
+                `;
+                tableBody.appendChild(row);
+                totalContacts++;
+            });
 
-        // Atualiza o contador de contactos
-        document.getElementById("resultCounter").textContent = `Total de contactos: ${storedContacts.length}`;
+            // Atualizar o contador de contactos
+            document.getElementById("resultCounter").textContent = `Total de contactos: ${totalContacts}`;
+        } catch (error) {
+            console.error("Erro ao carregar os contactos:", error);
+            alert("Erro ao carregar os contactos.");
+        }
     };
 </script>
 
-
 </body>
 </html>
+
