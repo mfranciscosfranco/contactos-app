@@ -109,29 +109,48 @@
     </div>
 </div>
 
-<script>
-    function addNewContact(event) {
+<script type="module">
+    // Importar funções necessárias do SDK Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCF2jJhvcg8BIJLjcqkuSmDZbJmLyu_2kX",
+        authDomain: "lista-de-contactos-74279.firebaseapp.com",
+        databaseURL: "https://lista-de-contactos-74279-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "lista-de-contactos-74279",
+        storageBucket: "lista-de-contactos-74279.appspot.com",
+        messagingSenderId: "576137028792",
+        appId: "1:576137028792:web:c2b6941a5b1137ddd6d004",
+        measurementId: "G-83NEQX3VH0"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Função para salvar o contacto no Firestore
+    async function addNewContact(event) {
         event.preventDefault();
 
-        // Obter os dados do formulário
         const formData = new FormData(event.target);
         const contact = Object.fromEntries(formData);
 
-        // Obter contactos existentes do localStorage
-        const storedContacts = JSON.parse(localStorage.getItem("contactos")) || [];
-
-        // Adicionar o novo contacto
-        storedContacts.push(contact);
-
-        // Salvar de volta no localStorage
-        localStorage.setItem("contactos", JSON.stringify(storedContacts));
-
-        alert("Contacto salvo com sucesso!");
-        event.target.reset(); // Limpa o formulário
-        window.location.href = "contactos.html"; // Redireciona para a página de contactos
+        try {
+            // Salvar contacto na coleção "contactos"
+            await addDoc(collection(db, "contactos"), contact);
+            alert("Contacto salvo com sucesso!");
+            event.target.reset(); // Limpa o formulário
+            window.location.href = "contactos.html"; // Redireciona para a página de contactos
+        } catch (error) {
+            console.error("Erro ao salvar o contacto:", error);
+            alert("Erro ao salvar o contacto.");
+        }
     }
 </script>
 
 </body>
 </html>
+
 
